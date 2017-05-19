@@ -9,13 +9,14 @@ using EmailModel;
 namespace EmailService
 {
     public delegate void FoundEmailEventHandler(object sender, MyEmailEventArgs e);
-    public class EmailReceiver
+    public class EmailReceiver:IDisposable
     {
         public event FoundEmailEventHandler FoundEmail;
+        Chilkat.MailMan mailMan = new Chilkat.MailMan();
         public void Do()
         {
             var appsettings = new Settings();
-            Chilkat.MailMan mailMan = new Chilkat.MailMan();
+
 
             bool success = mailMan.UnlockComponent(appsettings.chilkatMailKey);
             if (success != true)
@@ -49,14 +50,13 @@ namespace EmailService
                 }
                 if (ValidateCommand(email))
                 {
-                    TriggerEvent(email);
+                    ProcessValidEmail(email);
                 }
                 else
                 {
                     ProcessInvalidEmail(email);
                 }
             }
-
         }
 
         private void ProcessInvalidEmail(Email email)
@@ -66,17 +66,19 @@ namespace EmailService
 
         private bool ValidateCommand(Email email)
         {
-            return true;
+            if (email.From.ToUpper().Contains("EZITSOL.COM"))
+                return true;
+            return false;
         }
 
-        public void TriggerEvent(Chilkat.Email email)
+        public void ProcessValidEmail(Chilkat.Email email)
         {
             //Raise event
             var emailEventArgs = new MyEmailEventArgs();
             emailEventArgs.From = ReadEmail.Utility.CleanEmailAddress( email.From);
             emailEventArgs.Subject = email.Subject;
-          
-            FoundEmail(this, emailEventArgs);
+
+            OnFoundEmail(emailEventArgs);
 
 
 
@@ -97,6 +99,12 @@ namespace EmailService
         {
             if (FoundEmail != null)
                 FoundEmail(this, e);
+        }
+
+        public void Dispose()
+        {
+            if (mailMan != null)
+                mailMan.Dispose();
         }
     }
 }

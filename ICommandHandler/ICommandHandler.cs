@@ -11,6 +11,7 @@ namespace ICommandHandler
     public interface ICommandHandler
     {
         void Process(MyEmailEventArgs e);
+        bool CanProcess(MyEmailEventArgs e);
         event PostBack OnPostBack;
 
     }
