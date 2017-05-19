@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ContactHandler;
-using EmailModel;
+using CommandModel;
 using System.ServiceProcess;
 using System.Reflection;
 

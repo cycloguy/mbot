@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmailModel\EmailModel.csproj">
+    <ProjectReference Include="..\CommandModel\CommandModel.csproj">
       <Project>{1c5e617a-5f78-415b-87fb-896414f0e43e}</Project>
-      <Name>EmailModel</Name>
+      <Name>CommandModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\ICommandHandler\ICommandHandler.csproj">
       <Project>{3f43c328-d32a-4eec-ba0c-3abadba22a7c}</Project>

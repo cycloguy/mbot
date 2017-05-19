@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EmailModel
+namespace CommandModel
 {
     public class MyEmailEventArgs: EventArgs
     {
@@ -15,7 +11,7 @@ namespace EmailModel
         public string Subject { get; set; }
         public string Content { get; set; }
         public bool HasAttachment { get; set; }
-        public string FileName { get; set; }
+        public string[] FileNames { get; set; }
         public string Folder { get; set; }
         public int Uidl { get; set; }
 

@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ReadEmail
+namespace MailBot.Utility
 {
-    class Utility
+    public class EmailUtility
     {
         public static string CleanEmailAddress(string emailAddresses)
         {

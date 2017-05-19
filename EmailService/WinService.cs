@@ -1,5 +1,5 @@
 ﻿using ContactHandler;
-using EmailModel;
+using CommandModel;
 using System.Timers;
 using System.ServiceProcess;
 using System;

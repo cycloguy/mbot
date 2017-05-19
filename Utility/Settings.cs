@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace EmailService
+namespace MailBot.Utility
 {
     public class Settings
     {
