@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ReadEmail
+namespace EmailService
 {
     public class Settings
     {
