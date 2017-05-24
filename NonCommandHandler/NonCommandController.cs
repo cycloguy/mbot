@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ICommandHandler;
 using CommandModel;
 using MailBot.Utility;
+using Chilkat;
 
 namespace NonCommandHandler
 {
@@ -33,10 +34,16 @@ namespace NonCommandHandler
         {
             throw new NotImplementedException();
         }
+        void PostProcessCommand(MyEmailEventArgs e)
+        {
+            if (OnPostBack != null)
+                OnPostBack(this, e);
+        }
 
         public void Process(MyEmailEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Console.WriteLine("Skip- Non command");
         }
     }
 }

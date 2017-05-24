@@ -9,36 +9,52 @@ namespace EmailService
     public class EmailReceiver
     {
         public event FoundEmailEventHandler FoundEmail;
-        Chilkat.MailMan mailMan = new Chilkat.MailMan();
-        public EmailReceiver()
+        Chilkat.MailMan mailMan;
+        public EmailReceiver(Chilkat.MailMan mMan)
         {
-            var appsettings = new Settings();
-            bool success = mailMan.UnlockComponent(appsettings.chilkatMailKey);
-            if (success != true)
+            mailMan = mMan;
+        }
+        public void Scan()
+        {
+            Chilkat.StringArray saUidls = null;
+            //  Get the complete list of UIDLs
+            saUidls = mailMan.GetUidls();
+            if (saUidls == null)
+            {
+                return;
+            }
+            //  Get the 10 most recent UIDLs
+            //  The 1st email is the oldest, the last email is the newest
+            //  (usually)
+            int i;
+            int n;
+            int startIdx;
+            int bundleSize = 3;
+            n = saUidls.Count;
+            startIdx = n > bundleSize ? n - bundleSize : 0;
+
+            Chilkat.StringArray saUidls2 = new Chilkat.StringArray();
+            for (i = startIdx; i <= n - 1; i++)
+            {
+                saUidls2.Append(saUidls.GetString(i));
+            }
+            //  Download in full the 10 most recent emails:
+            Chilkat.EmailBundle bundle = null;
+
+            bundle = mailMan.FetchMultiple(saUidls2);
+            if (bundle == null)
             {
                 Console.WriteLine(mailMan.LastErrorText);
                 return;
             }
-            //  Set the POP3 server's hostname
-            mailMan.MailHost = appsettings.mailServer;
 
-            //  Set the POP3 login/password.
-            mailMan.PopUsername = appsettings.mailAccount;
-            mailMan.PopPassword = appsettings.mailPassword;
-        }
-        public void Scan()
-        {
-            int numMessages = mailMan.GetMailboxCount();
-            int i;
-            if (numMessages == 0)
-                return;
             Chilkat.Email email = null;
-            //get 1
-            numMessages = 1;
-            for (i = 1; i <= numMessages; i++)
+            for (i = 0; i <= bundle.MessageCount - 1; i++)
             {
-
-                email = mailMan.FetchByMsgnum(i);
+                email = bundle.GetEmail(i);
+                Console.WriteLine(email.From);
+                Console.WriteLine(email.Subject);
+                Console.WriteLine("----");
                 if (email == null)
                 {
                     Console.WriteLine(mailMan.LastErrorText);
@@ -53,6 +69,7 @@ namespace EmailService
                     ProcessInvalidEmail(email);
                 }
             }
+           
         }
 
         private void ProcessInvalidEmail(Email email)
@@ -73,7 +90,8 @@ namespace EmailService
             var emailEventArgs = new MyEmailEventArgs();
             emailEventArgs.From = EmailUtility.CleanEmailAddress( email.From);
             emailEventArgs.Subject = email.Subject;
-
+            emailEventArgs.Uidl = email.Uidl;
+            emailEventArgs.Content = email.Body;
             OnFoundEmail(emailEventArgs);
 
 

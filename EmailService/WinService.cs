@@ -22,6 +22,7 @@ namespace EmailService
             timer = new System.Timers.Timer(10000); //1 minute
             timer.Elapsed += new ElapsedEventHandler(OnTimerEvent);
             timer.Enabled = true;
+            timer.Interval = 10000;
 
         }
 

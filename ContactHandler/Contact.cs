@@ -15,6 +15,9 @@ namespace ContactHandler
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        public string Email { get; set; }
+        public string Tel { get; set; }
+        public string  Fax { get; set; }
 
     }
 }

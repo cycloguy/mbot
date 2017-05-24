@@ -13,7 +13,7 @@ namespace CommandModel
         public bool HasAttachment { get; set; }
         public string[] FileNames { get; set; }
         public string Folder { get; set; }
-        public int Uidl { get; set; }
+        public string Uidl { get; set; }
 
     }
 }

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandModel", "CommandModel\CommandModel.csproj", "{1C5E617A-5F78-415B-87FB-896414F0E43E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FowardHandler", "FowardHandler\FowardHandler.csproj", "{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{1C5E617A-5F78-415B-87FB-896414F0E43E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C5E617A-5F78-415B-87FB-896414F0E43E}.Release|x64.ActiveCfg = Release|Any CPU
 		{1C5E617A-5F78-415B-87FB-896414F0E43E}.Release|x64.Build.0 = Release|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Debug|x64.Build.0 = Debug|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Release|x64.ActiveCfg = Release|Any CPU
+		{4D0F1ACF-7331-47F0-B8B3-E4C5F3458104}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

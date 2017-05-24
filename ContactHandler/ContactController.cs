@@ -4,6 +4,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using CommandModel;
 using ICommandHandler;
+using System.Text.RegularExpressions;
+using System.IO;
+
 namespace ContactHandler
 {
     public class ContactController: ICommandHandler.ICommandHandler
@@ -11,11 +14,6 @@ namespace ContactHandler
         private ContactContext db = new ContactContext();
 
         public event PostBack OnPostBack;
-
-        public ContactController()
-        {
-                        
-        }
 
         void PostProcessCommand(MyEmailEventArgs e)
         {
@@ -67,12 +65,10 @@ namespace ContactHandler
             return true;
         }
 
-        public Contact CreateContact(Contact contact)
+        public void CreateContact(Contact contact)
         {
             db.Contacts.Add(contact);
             db.SaveChanges();
-
-            return contact;
         }
 
         public bool DeleteContact(int id)
@@ -93,10 +89,18 @@ namespace ContactHandler
         {
             return db.Contacts.Count(e => e.Id == id) > 0;
         }
-
+        private bool ContactExists(string name)
+        {
+            return db.Contacts.Count(e => e.Name == name) > 0;
+        }
         public void Process(MyEmailEventArgs e)
         {
-            Console.WriteLine(e.From);
+            //using (StreamWriter writetext = new StreamWriter("emailContent.txt"))
+            //{
+            //    writetext.WriteLine(e.Content);
+            //}
+            CreateContact(ParseEmailContent(e.Content));
+
             PostProcessCommand(e);
             Console.WriteLine("-------------------------------");
         }
@@ -104,7 +108,33 @@ namespace ContactHandler
         public bool CanProcess(MyEmailEventArgs e)
         {
             //Implement logic of command
-            return (e.Subject.Length > 0);
+            return (e.Subject.Contains("Updated Card"));
+        }
+        string StripHTMLTag(string html)
+        {
+            return Regex.Replace(html, "<.*?>", String.Empty);
+        }
+        Contact ParseEmailContent(string content)
+        {
+            string[] stringSeparators = new string[] { "<br>" };
+            string[] lines = content.Split(stringSeparators, StringSplitOptions.None);
+            Contact contact = new Contact();
+            foreach (string line in lines)
+            {
+                // Console.WriteLine(StripHTMLTag(line));
+                string[] sub = StripHTMLTag(line).Split(':');
+                if (sub[0] == "Name")
+                    contact.Name = sub[1];
+                if (sub[0] == "Work" && sub[1].Contains("@"))
+                    contact.Email = sub[1];
+                if (sub[0] == "Work" && !sub[1].Contains("@"))
+                    contact.Tel = sub[1];
+                if (sub[0].Contains("Fax"))
+                    contact.Fax = sub[1];
+                if (sub[0].Contains("Address"))
+                    contact.Address1 = sub[1];
+            }
+            return contact;
         }
     }
 
